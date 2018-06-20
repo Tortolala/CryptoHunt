@@ -122,6 +122,11 @@ class Home extends Component {
         value: 0,
       };
 
+
+    state = {
+        gameStarted: true,
+    }
+
     handleChange = (event, value) => {
       this.setState({ value });
     };
@@ -140,7 +145,7 @@ class Home extends Component {
 
         }
         this.setState( { value: 0 })
-
+        this.setState( { gameStarted: true })
     }
 
     logout() {
@@ -152,27 +157,25 @@ class Home extends Component {
     }
 
 
+    submitAnswer = {
 
-         submitAnswer = {
-            //Sumar 1 a la estacion
+    }
 
-         }
+    state = {
+        anchorEl: null,
+    };
 
-         state = {
-            anchorEl: null,
-          };
+    handleClick = event => {
+        this.setState({
+          anchorEl: event.currentTarget,
+        });
+    };
 
-          handleClick = event => {
-            this.setState({
-              anchorEl: event.currentTarget,
-            });
-          };
-
-          handleClose = () => {
-            this.setState({
-              anchorEl: null,
-            });
-          };
+    handleClose = () => {
+        this.setState({
+          anchorEl: null,
+        });
+    };
 
 
     render() {
@@ -181,10 +184,7 @@ class Home extends Component {
         const { profile } = this.state;
         const { isAuthenticated } = this.props.auth;
         const { anchorEl } = this.state;
-
-
-
-        this.gameStarted = true;
+        const { gameStarted } = this.state
 
 
         return (
@@ -195,6 +195,7 @@ class Home extends Component {
                 isAuthenticated() && (
                     <div style={styles.root}>
 
+                        {/* APPBAR */}
                         <AppBar position="static">
 
                             <Toolbar>
@@ -216,7 +217,6 @@ class Home extends Component {
                             </Tabs>
 
                         </AppBar>
-
 
 
                         {/* PROFILE PAGE */}
@@ -282,7 +282,7 @@ class Home extends Component {
                         {value === 1 && <TabContainer>
 
 
-                            {this.gameStarted  ? (
+                            {!this.gameStarted  ? (
 
                                 <Card style={styles.card}>
 
@@ -361,7 +361,7 @@ class Home extends Component {
 
                                         <CardContent>
 
-                                            <Button variant="contained" size="big" color="primary" style={styles.showKey} onClick={this.startGame}>
+                                            <Button variant="contained" size="big" color="primary" style={styles.showKey} onClick={this.start}>
                                               Comenzar
                                             </Button>
 
