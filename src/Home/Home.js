@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Input from '@material-ui/core/Input';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import SwipeableViews from 'react-swipeable-views';
-import PropTypes from 'prop-types';
+
+
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -28,8 +30,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import Popover from '@material-ui/core/Popover';
-import CardMedia from '@material-ui/core/CardMedia';
-import Input from '@material-ui/core/Input';
+
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -49,10 +50,6 @@ function TabContainer(props) {
       {props.children}
     </Typography>
   );
-}
-
-function getSteps() {
-  return ["1", "2", "3", "4", "5", "6", "7"];
 }
 
 
@@ -85,50 +82,20 @@ const styles = {
         border: "solid",
         borderColor: "#F2105A",
     },
-    userGrid: {
-        display: "flex",
-        alignItems: "center"
-    },
-    ethGrid:{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        boxShadow: "inset 0px 0px 0px 1px black",
-        backgroundColor: "#c3cbff",
-    },
     card: {
-        // maxWidth: 500,
+        // maxWidth: '600px',
         // marginLeft: "calc(50% - 250px)",
-        // height: "650px",
         display: 'block',
-        width: '50vw',
-        transitionDuration: '0.2s',
-        height: '50vw'
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        marginBottom: 16,
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
+        width: '100%',
+        height: '100%',
+        minHeight: '500px',
+        padding: '5px',
     },
     tabLabel: {
-        color: "#ddd",
+        color: "#eee",
     },
     font: {
         font: "roboto",
-    },
-    table: {
-        minWidth: 700,
-    },
-    media: {
-        height: 0,
-        paddingTop: '56.25%', // 16:9
     },
     popover: {
         margin: "15px",
@@ -140,74 +107,36 @@ const styles = {
         marginLeft: "calc(50% - 100px)",
     },
     privateKey: {
-        visibility: "hidden"
+        // visibility: "hidden"
+    },
+    longText: {
+        width: "70%",
+        marginLeft: "15%",
+    },
+    hintButtons: {
+        width: "400px",
+        marginLeft: "calc(50% - 100px)",
+    },
+    input: {
+        width: "180",
+        padding: "5px",
+        marginLeft: "calc(50% - 90px)",
     }
 
 }
-
-
-let id = 0;
-function createData(name, tokens) {
-  id += 1;
-  return { id, name, tokens };
-}
-
-const data = [
-  createData('Juan R.', 250),
-  createData('Fernanda', 237),
-  createData('Luis A.', 262),
-  createData('Marisa', 305),
-  createData('Edgar', 356,),
-];
 
 
 
 class Home extends Component {
 
 
-
-    //Stepper
-
-    state = {
-       activeStep: 0,
-    };
-
-    handleNext = () => {
-        const { activeStep } = this.state;
-        this.setState({
-            activeStep: activeStep + 1,
-        });
-    };
-
-    handleBack = () => {
-        const { activeStep } = this.state;
-        this.setState({
-          activeStep: activeStep - 1,
-        });
-      };
-
-      handleReset = () => {
-        this.setState({
-          activeStep: 0,
-        });
-    };
-
-
-
-    //FINISH STEPPER
-
-
-
-
-
-
-    state = {
-       completed: 0,
-     };
-
     state = {
       value: 0,
+
     };
+
+
+
 
     handleChange = (event, value) => {
        this.setState({ value });
@@ -234,8 +163,6 @@ class Home extends Component {
     goTo(route) {
         this.props.history.replace(`/${route}`)
     }
-
-
 
 
 
@@ -268,13 +195,10 @@ class Home extends Component {
         const { value } = this.state;
         const { profile } = this.state;
         const { isAuthenticated } = this.props.auth;
-        const { count, page, rowsPerPage } = this.props;
         const { anchorEl } = this.state;
 
+        this.gameStarted = true;
 
-        // STEPPER
-        const steps = getSteps();
-        const { activeStep } = this.state;
 
         return (
 
@@ -288,11 +212,10 @@ class Home extends Component {
 
                             <Toolbar>
 
-                                <Typography variant="subheading" color="inherit" style={styles.flex}>
+                                <Typography variant="subheading" color="inherit" align="center" style={styles.flex}>
                                     UFM CryptoHunt
                                 </Typography>
 
-                                <Button color="inherit" onClick = {this.logout.bind(this)}> Log Out </Button>
 
                             </Toolbar>
 
@@ -302,33 +225,27 @@ class Home extends Component {
                               centered>
                               <Tab style={styles.tabLabel} label="Profile" />
                               <Tab style={styles.tabLabel} label="Hunt" />
-                              <Tab style={styles.tabLabel} label="Hunters" />
+                              <Tab style={styles.tabLabel} label="Ranking" />
                             </Tabs>
 
                         </AppBar>
 
+
+
+                        {/* PROFILE PAGE */}
                         {value === 0 && <TabContainer>
-
-
 
                             <Card style={styles.card}>
 
-
-
                                <CardContent>
 
-                                   <Avatar
-                                       src={profile.picture}
-                                       style={styles.bigAvatar}
-                                   />
+                                   <Avatar  src={profile.picture}  style={styles.bigAvatar} />
 
                                    <Typography variant="title" align="center">
 
                                        {profile.nickname}
 
-                                   </Typography>
-
-                                   <br/>
+                                   </Typography>  <br/>
 
                                    <Typography variant="subheading" align="center" gutterBottom>
 
@@ -336,13 +253,11 @@ class Home extends Component {
 
                                    </Typography>
 
-                                   <Typography variant="body1" align="center" gutterBottom>
+                                   <Typography variant="body1" align="center" noWrap gutterBottom>
 
                                        1Ace0e17b704A0ea258C089a60fFAf9412f4D395
 
-                                   </Typography>
-
-                                   <br/>
+                                   </Typography> <br/>
 
                                    <Typography variant="subheading" align="center" gutterBottom>
 
@@ -354,185 +269,136 @@ class Home extends Component {
 
                                        70.04
 
-                                   </Typography>
-
-                               </CardContent>
-
-                               <CardActions>
+                                   </Typography> <br/>
 
                                    <Button  variant="outlined" size="medium" color="primary" style={styles.showKey}> Mostrar llave privada </Button>
 
-                               </CardActions>
+                                   <Typography variant="body1" align="center" noWrap gutterBottom>
 
-                               <Typography variant="body1" align="center" gutterBottom style={styles.privateKey}>
+                                       <br/>
+                                       bf907a8dcd5cd838c6c944eead0ea2307886d31dca77ea768d3e24a4a59ba7f3
 
-                                   bf907a8dcd5cd838c6c944eead0ea230<br/>
-                                   7886d31dca77ea768d3e24a4a59ba7f3
+                                   </Typography>
 
-                               </Typography>
+                                   <br/>
 
-                               <br/>
+                                   <Button variant="contained" size="medium" color="primary" style={styles.showKey} onClick = {this.logout.bind(this)}> Log Out </Button>  <br/> <br/>
+
+                             </CardContent>
 
                            </Card>
 
-
-
-
-                            {/*<Grid container spacing={0} wrap="nowrap">
-                                <Grid item xs={6} style={styles.userGrid}>
-
-                                    <Avatar
-                                        alt={profile.nickname}
-                                        src={profile.picture}
-                                        style={styles.bigAvatar}
-                                    />
-
-                                <Typography style={styles.font}  variant="subheading" noWrap>
-                                        {profile.nickname}
-
-                                    </Typography>
-                                </Grid>
-
-
-                            </Grid>*/}
-
-
-
                         </TabContainer>}
 
+
+                        {/* HUNT PAGE */}
                         {value === 1 && <TabContainer>
 
 
-                            <Card style={styles.card}>
+                            {this.gameStarted  ? (
 
-
-                                <Stepper activeStep={activeStep} alternativeLabel>
-                                      {steps.map(label => {
-                                        return (
-                                          <Step>
-                                            <StepLabel />
-                                          </Step>
-                                        );
-                                      })}
-                                    </Stepper>
-                                    <div>
-                                      {this.state.activeStep === steps.length ? (
-                                        <div>
-                                          <Typography>
-                                            All steps completed - you&quot;re finished
-                                          </Typography>
-                                          <Button onClick={this.handleReset}>Reset</Button>
-                                        </div>
-                                      ) : (
-                                        <div>
-
-                                          {/*<div>
-                                            <Button
-                                              disabled={activeStep === 0}
-                                              onClick={this.handleBack}
-                                            >
-                                              Back
-                                            </Button>
-                                            <Button
-                                              variant="contained"
-                                              color="primary"
-                                              onClick={this.handleNext}
-                                            >
-                                              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                                            </Button>
-                                          </div>*/}
-                                        </div>
-                                      )}
-                                    </div>
+                                <Card style={styles.card}>
 
                                     <CardContent>
-                                      <Typography gutterBottom variant="headline" component="h2">
 
-                                          Estación no. 1
+                                        <Typography variant="headline" align="center" gutterBottom>
 
-                                      </Typography>
-                                      <Typography component="p">
-                                        El original está en Puebla, México
-                                      </Typography>
+                                             Encuentra el lugar...
+
+                                         </Typography> <br/>
+
+                                         <Typography variant="body1" align="justify" wrap style={styles.longText} >
+
+                                                El original está en Puebla, México
+                                                Line ssigned a value but never used
+                                                Linassigned a value but never used
+                                                Li is assigned a value but never used
+
+                                        </Typography> <br/> <br/>
+
+                                        <div style={styles.hintButtons}>
+
+                                            <Button size="medium" color="secondary" align="center" onClick={this.handleClick}>
+                                                Hint no. 1
+                                            </Button>
+
+
+                                            <Button size="medium" color="secondary" align="right" onClick={this.handleClick}>
+                                                Hint no. 2
+                                            </Button>
+
+                                        </div> <br/>
+
+
+                                        <Popover
+                                            className={styles.popover}
+                                            open={Boolean(anchorEl)}
+                                            anchorEl={anchorEl}
+                                            onClose={this.handleClose}
+                                            anchorOrigin={{
+                                              vertical: 'bottom',
+                                              horizontal: 'center',
+                                            }}
+                                            transformOrigin={{
+                                              vertical: 'bottom',
+                                              horizontal: 'center',
+                                            }}
+                                         >
+
+                                         <Typography style={styles.typography}>
+                                             Esta es la pista... </Typography>
+                                         </Popover>
+
+
+                                        <Input
+                                            centered
+                                            placeholder="Código"
+                                            style={styles.input}
+                                            inputProps={{
+                                              'aria-label': 'Description',
+                                            }}
+                                          /> <br/><br/>
+
+
+                                        <Button variant="contained" size="big" color="primary" style={styles.showKey} onClick={this.submitAnswer}>
+                                            Enviar
+                                        </Button>
+
                                     </CardContent>
-                                    <CardActions>
-                                      <Button size="medium" color="secondary" onClick={this.handleClick}>
-                                        Hint 1
-                                      </Button>
-                                      <Popover
-                                        className={styles.popover}
-                                        open={Boolean(anchorEl)}
-                                        anchorEl={anchorEl}
-                                        onClose={this.handleClose}
-                                        anchorOrigin={{
-                                          vertical: 'bottom',
-                                          horizontal: 'center',
-                                        }}
-                                        transformOrigin={{
-                                          vertical: 'bottom',
-                                          horizontal: 'center',
-                                        }}
-                                      >
-                                        <Typography className={styles.typography}> Esta es la pista... </Typography>
-                                      </Popover>
-                                      <Button size="medium" color="secondary" onClick={this.handleClick}>
-                                        Hint 2
-                                      </Button>
-                                    </CardActions>
 
-                                    <Input
-                                        centered
-                                        placeholder="Insertar código"
-                                        className={styles.input}
-                                        inputProps={{
-                                          'aria-label': 'Description',
-                                        }}
-                                      />
+                                </Card>
 
-                                  <Button size="big" color="primary" onClick={this.submitAnswer}>
-                                        Enviar
-                                      </Button>
+                                ) : (
 
-                                  </Card>
+                                    <Card style={styles.card}>
+
+                                        <CardContent>
+
+                                            <Button variant="contained" size="big" color="primary" style={styles.showKey} onClick={this.startGame}>
+                                              Comenzar
+                                            </Button>
 
 
+                                        </CardContent>
 
+                                    </Card>
 
+                                )
+                            }
 
                         </TabContainer>}
 
 
+                        {/* RANKING PAGE */}
                         {value === 2 && <TabContainer>
 
+                            <Card style={styles.card}>
 
+                               <CardContent>
 
-                            <Paper className={styles.root}>
+                               </CardContent>
 
-                                    {/*Live Score*/}
-
-                                  <Table className={styles.table}>
-                                    <TableHead>
-                                      <TableRow>
-                                        <TableCell> Hunter Alias </TableCell>
-                                        <TableCell numeric> Tokens </TableCell>
-
-                                      </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                      {data.map(n => {
-                                        return (
-                                          <TableRow key={n.id}>
-                                            <TableCell component="th" scope="row">
-                                              {n.name}
-                                            </TableCell>
-                                            <TableCell numeric>{n.tokens}</TableCell>
-                                          </TableRow>
-                                        );
-                                      })}
-                                    </TableBody>
-                                  </Table>
-                                </Paper>
-
+                           </Card>
 
                         </TabContainer>}
 
