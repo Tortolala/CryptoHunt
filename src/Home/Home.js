@@ -13,24 +13,14 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Input from '@material-ui/core/Input';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-
-
-
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableFooter from '@material-ui/core/TableFooter';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import Popover from '@material-ui/core/Popover';
 
+
+import Popover from '@material-ui/core/Popover';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -56,14 +46,6 @@ function TabContainer(props) {
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-
-const theme = createMuiTheme({
-  typography: {
-    // Tell Material-UI what the font-size on the html element is.
-    color: "red",
-  },
-});
 
 
 const styles = {
@@ -127,6 +109,25 @@ const styles = {
 
 
 
+let id = 0;
+function createData(name, tokens) {
+  id += 1;
+  return { id, name, tokens };
+}
+
+const data = [
+  createData('User1', 3002),
+  createData('User2', 2342),
+  createData('User3', 2344),
+  createData('User4', 4241),
+  createData('User5', 3431),
+  createData('User6', 3931),
+  createData('User7', 5545),
+  createData('User8', 2342),
+  createData('User9', 5324),
+];
+
+
 class Home extends Component {
 
 
@@ -134,6 +135,7 @@ class Home extends Component {
       value: 0,
 
     };
+
 
 
 
@@ -395,6 +397,60 @@ class Home extends Component {
                             <Card style={styles.card}>
 
                                <CardContent>
+
+
+                                   <Typography variant="title" align="center">
+
+                                      Live Score
+
+                                   </Typography> <br/>
+
+
+                                   <Typography variant="subheading" align="left">
+
+                                      Marrocoins:
+
+                                  </Typography>
+
+                                  <Typography variant="body1" align="center">
+
+                                      3492398 tokens
+
+                                   </Typography> <br/>
+
+                                   <Typography variant="subheading" align="left">
+
+                                      Hunters:
+
+                                   </Typography>
+
+                                   <Table>
+
+                                        <TableHead>
+                                            <TableRow>
+
+                                                <TableCell> Name</TableCell>
+                                                <TableCell numeric>Tokens</TableCell>
+
+                                            </TableRow>
+                                        </TableHead>
+
+                                        <TableBody>
+                                            {data.map(n => {
+                                                return (
+                                                    <TableRow key={n.id}>
+                                                        <TableCell component="th" scope="row">
+                                                            {n.name}
+                                                        </TableCell>
+                                                        <TableCell numeric>
+                                                            {n.tokens}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                );
+                                            })}
+                                        </TableBody>
+
+                                    </Table>
 
                                </CardContent>
 
