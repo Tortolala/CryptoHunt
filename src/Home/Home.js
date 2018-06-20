@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Input from '@material-ui/core/Input';
@@ -21,31 +20,6 @@ import TableRow from '@material-ui/core/TableRow';
 
 
 import Popover from '@material-ui/core/Popover';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-
-
-function TabContainer({ children, dir }) {
-  return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
-      {children}
-    </Typography>
-  );
-}
-
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 
 const styles = {
@@ -74,6 +48,7 @@ const styles = {
         padding: '5px',
     },
     tabLabel: {
+        width: "33%",
         color: "#eee",
     },
     font: {
@@ -108,6 +83,19 @@ const styles = {
 }
 
 
+function TabContainer(props) {
+    return (
+        <Typography component="div" style={{ padding: 8 * 3 }}>
+            {props.children}
+        </Typography>
+    );
+}
+
+TabContainer.propTypes = {
+    children: PropTypes.node.isRequired,
+};
+
+
 
 let id = 0;
 function createData(name, tokens) {
@@ -130,19 +118,13 @@ const data = [
 
 class Home extends Component {
 
-
     state = {
-      value: 0,
-
-    };
-
-
-
-
+        value: 0,
+      };
 
     handleChange = (event, value) => {
-       this.setState({ value });
-     };
+      this.setState({ value });
+    };
 
 
     componentWillMount() {
@@ -155,7 +137,10 @@ class Home extends Component {
         }
         else {
             this.setState( { profile: userProfile })
+
         }
+        this.setState( { value: 0 })
+
     }
 
     logout() {
@@ -192,19 +177,19 @@ class Home extends Component {
 
     render() {
 
-
-        const { classes } = this.props;
         const { value } = this.state;
         const { profile } = this.state;
         const { isAuthenticated } = this.props.auth;
         const { anchorEl } = this.state;
+
+
 
         this.gameStarted = true;
 
 
         return (
 
-            <div className="container">
+            <div>
 
             {
                 isAuthenticated() && (
@@ -227,7 +212,7 @@ class Home extends Component {
                               centered>
                               <Tab style={styles.tabLabel} label="Profile" />
                               <Tab style={styles.tabLabel} label="Hunt" />
-                              <Tab style={styles.tabLabel} label="Ranking" />
+                              <Tab style={styles.tabLabel} label="Ranking"/>
                             </Tabs>
 
                         </AppBar>
